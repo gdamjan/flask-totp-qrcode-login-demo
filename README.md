@@ -1,10 +1,10 @@
-# Demo flask app using pyotp, qrcode + uwsgi proxy and rpc
+# Demo flask auth app using pyotp, qrcode to authenticate uwsgi proxy
 
 ## OTP auth app
 
 The flask app (siting on the `/_auth` path) allows users to login with a username and a TOTP token,
 to logout (clears the session) and setup their user and token. Before the user is created they must
-confirm they setup his TOTP app corectly by entering the valid token.
+confirm they setup theirs TOTP app corectly by entering the valid token.
 
 Users and their OTP secrets are stored in a runtime dictionary for the demo.
 
