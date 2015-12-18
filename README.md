@@ -27,6 +27,10 @@ The secure cookie will leak to the proxied service, thus this setup is not recom
 Anyway the real application of this solution is proxing to internal services that don't have good enough (or at all)
 auth support.
 
+## Python 3
+
+All of this is tested and works on python 3.5.1. It will probably work on >=2.7 and 3.4 or so.
+
 ## References
 
 * [uwsgi routing](http://uwsgi-docs.readthedocs.org/en/latest/InternalRouting.html)
