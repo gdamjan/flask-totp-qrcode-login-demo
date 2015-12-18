@@ -59,18 +59,16 @@ def confirm():
         if totp.verify(token):
             db[user] = secret
             flash('User created!')
-            session.pop('provision')
             return redirect(url_for('login'))
         else:
             flash('Token not confirmed')
 
     provision = totp.provisioning_uri(user, issuer_name='otp demo')
-    session['provision'] = provision
     return render_template('confirm.html', provision=provision, user=user, secret=secret)
 
 @app.route('/new/qrcode.png', methods=['GET'])
 def qrcodeimg():
-    provision = session['provision']
+    provision = request.args['provision']
     # ^ session or url argument?
     img = qrcode.make(provision)
     img_io = io.BytesIO()
