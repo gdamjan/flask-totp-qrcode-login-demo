@@ -4,7 +4,9 @@
 {% block content %}
 <small>{{ provision }}</small><br>
 <img src="{{ url_for('qrcodeimg') }}" title="{{ provision }}">
-<form action=create method=post>
+<form action="{{ url_for('confirm') }}" method=post>
+   <input name=user type=hidden value={{ user }}>
+   <input name=secret type=hidden value={{ secret }}>
    <input name=token placeholder="Confirm the token from your app" autofocus>
 </form>
 {% endblock %}

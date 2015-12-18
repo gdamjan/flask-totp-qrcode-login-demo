@@ -45,20 +45,28 @@ def do_login():
 
 @app.route('/new/', methods=['POST', 'GET'])
 def confirm():
-    user = request.values.get('user')
+    user = request.form.get('user')
     if user is None:
         return render_template('new.html')
-    session['user'] = user
 
-    secret = session.get('secret')
+    secret = request.form.get('secret')
     if secret is None:
         secret = pyotp.random_base32()
-        session['secret'] = secret
 
     totp = pyotp.TOTP(secret)
+    token = request.form.get('token')
+    if token is not None:
+        if totp.verify(token):
+            db[user] = secret
+            flash('User created!')
+            session.pop('provision')
+            return redirect(url_for('login'))
+        else:
+            flash('Token not confirmed')
+
     provision = totp.provisioning_uri(user, issuer_name='otp demo')
     session['provision'] = provision
-    return render_template('confirm.html', provision=provision)
+    return render_template('confirm.html', provision=provision, user=user, secret=secret)
 
 @app.route('/new/qrcode.png', methods=['GET'])
 def qrcodeimg():
@@ -70,23 +78,6 @@ def qrcodeimg():
     response = Response(img_io.getvalue(), mimetype='image/png')
     response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
     return response
-
-@app.route('/new/create', methods=['POST'])
-def create():
-    user = session.get('user')
-    secret = session.get('secret')
-    token = request.form.get('token')
-    totp = pyotp.TOTP(secret)
-    if totp.verify(token):
-        db[user] = secret
-        flash('User created!')
-        session.pop('user')
-        session.pop('secret')
-        session.pop('provision')
-        return redirect(url_for('login'))
-    else:
-        flash('Token not confirmed')
-        return redirect(url_for('confirm', user=user))
 
 @app.route('/logout', methods=['GET'])
 def logout():
