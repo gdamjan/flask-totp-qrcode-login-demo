@@ -2,13 +2,12 @@
 
 ## OTP auth app
 
-The flask app (siting on the `/_auth` path) allows users to login with a username and a TOTP token,
-to logout (clears the session) and setup their user and token. Before the user is created they must
-confirm they setup theirs TOTP app corectly by entering the valid token.
+The flask app (at the `/_auth` path) allows users to login with a username and a TOTP token,
+to logout (clears the session and cookies) and to setup their user and token. Before the user is created
+they must confirm they've setup theirs TOTP app correctly by entering a valid token.
 
-Users and their OTP secrets are stored in a runtime dictionary for the demo.
-
-The session is the default secure cookie based client side session from flask.
+Users and their OTP secrets are stored in a runtime dictionary for this demo. In a more serious
+application they would be stored in a database, and passwords would be used too.
 
 ## uwsgi proxy, routing and rpc
 
@@ -17,15 +16,19 @@ authorized users. Using uwsgi internal routing a rpc call is made to a python fu
 secure cookie. If the secure cookie is not present, or it doesn't contain proper authorization, the request
 is redirected to `/_auth` where the user can authenticate. The above python app needs to set the secure cookie.
 
-a rpc call is made for each proxied request, but the proxing itself is made by the uwsgi offloading infrastructure.
+a rpc call is made for each proxied request, but the proxying itself is made by the uwsgi offloading infrastructure.
 
 ## Leaking of the cookie
+
+The secure cookie is based on `itsdangerous`, it can't be tampered with nor created without the knowledge of the
+app global secret key, since it's cryptographically signed. But the cookie is authorization equivalent.
 
 The secure cookie will leak to the proxied service, thus this setup is not recommended to proxy to 3rd party services
 (the benefits of that are also questionable). Maybe uwsgi will get the option to remove the cookie in a routing action.
 
-Anyway the real application of this solution is proxing to internal services that don't have good enough (or at all)
-auth support.
+Anyway the real application of this solution is proxying to internal services that don't have good enough (or at all)
+authentification support. Possible additions can be OAuth authentification and also adding access permissions in the
+cookie and rpc.
 
 ## Python 3
 
@@ -35,7 +38,7 @@ All of this is tested and works on python 3.5.1. It will probably work on >=2.7 
 
 * [uwsgi routing](http://uwsgi-docs.readthedocs.org/en/latest/InternalRouting.html)
 * [uwsgi rpc](http://uwsgi-docs.readthedocs.org/en/latest/RPC.html)
-* [secure cookie](http://werkzeug.pocoo.org/docs/0.11/contrib/securecookie/)
+* [itsdangerous](http://pythonhosted.org/itsdangerous/)
 * [qrcode](https://pypi.python.org/pypi/qrcode)
 * [pyotp](https://pyotp.readthedocs.org)
 * [Flask](http://flask.pocoo.org/)
