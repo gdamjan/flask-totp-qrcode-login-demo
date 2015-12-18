@@ -56,15 +56,13 @@ def confirm():
         session['secret'] = secret
 
     totp = pyotp.TOTP(secret)
-    provision = totp.provisioning_uri(user)
+    provision = totp.provisioning_uri(user, issuer_name='otp demo')
+    session['provision'] = provision
     return render_template('confirm.html', provision=provision)
 
 @app.route('/new/qrcode.png', methods=['GET'])
 def qrcodeimg():
-    user = session['user']
-    secret = session['secret']
-    totp = pyotp.TOTP(secret)
-    provision = totp.provisioning_uri(user)
+    provision = session['provision']
     # ^ session or url argument?
     img = qrcode.make(provision)
     img_io = io.BytesIO()
@@ -84,6 +82,7 @@ def create():
         flash('User created!')
         session.pop('user')
         session.pop('secret')
+        session.pop('provision')
         return redirect(url_for('login'))
     else:
         flash('Token not confirmed')
