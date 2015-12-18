@@ -45,7 +45,7 @@ and optinally the cares plugin to specify the destination host by name, and not 
 ```
 export PYTHONUSERBASE=$PWD/py-env
 pip install --user -r requirements.txt
-uwsgi --ini auth.ini
+uwsgi --ini auth.ini [--touch-reload auth.ini] [--touch-reload app.py] [--touch-reload rpc.py]
 ```
 
 ## References
