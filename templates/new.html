@@ -2,7 +2,7 @@
 {% block title %}New{% endblock %}
 
 {% block content %}
-<form method=post>
+<form action="{{ url_for('confirm') }}" method=post>
    <input name=user placeholder="Choose your username" autofocus>
 </form>
 {% endblock %}
