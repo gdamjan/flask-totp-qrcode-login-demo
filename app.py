@@ -69,7 +69,8 @@ def confirm():
 @app.route('/new/qrcode.png', methods=['GET'])
 def qrcodeimg():
     provision = request.args['provision']
-    # ^ session or url argument?
+    # ^ session or url argument (shows up in logs)
+    # ideally, should be done client side http://davidshimjs.github.io/qrcodejs/
     img = qrcode.make(provision)
     img_io = io.BytesIO()
     img.save(img_io)
