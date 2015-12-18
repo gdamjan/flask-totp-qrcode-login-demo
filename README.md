@@ -34,7 +34,8 @@ cookie and rpc.
 
 ## Python 3
 
-All of this is tested and works on python 3.5.1. It will probably work on >=2.7 and 3.4 or so.
+All of this is tested and works on python 3.5.1. It will probably work on >=2.7 and 3.4 or so. The `pip` and
+`python` commands are python 3.x here (on ArchLinux).
 
 ## Install and run
 
