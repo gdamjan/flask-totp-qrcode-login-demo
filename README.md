@@ -16,7 +16,9 @@ authorized users. Using uwsgi internal routing a rpc call is made to a python fu
 secure cookie. If the secure cookie is not present, or it doesn't contain proper authorization, the request
 is redirected to `/_auth` where the user can authenticate. The above python app needs to set the secure cookie.
 
-a rpc call is made for each proxied request, but the proxying itself is made by the uwsgi offloading infrastructure.
+A rpc call is made for each proxied request, but the proxying itself is made by the uwsgi offloading infrastructure.
+
+The upstream server is configured in the uwsgi config file (see upstream in `auth.ini`).
 
 ## Leaking of the cookie
 
@@ -33,6 +35,17 @@ cookie and rpc.
 ## Python 3
 
 All of this is tested and works on python 3.5.1. It will probably work on >=2.7 and 3.4 or so.
+
+## Install and run
+
+I typically use uwsgi installed from distro packages. Needed features are routing, python plugin,
+and optinally the cares plugin to specify the destination host by name, and not by address.
+
+```
+export PYTHONUSERBASE=$PWD/py-env
+pip install --user -r requirements.txt
+uwsgi --ini auth.ini
+```
 
 ## References
 
