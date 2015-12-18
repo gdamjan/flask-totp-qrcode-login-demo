@@ -6,6 +6,9 @@ import os
 SECRET_KEY = os.environ['SECRET_KEY']
 AUTH_COOKIE = os.environ['AUTH_COOKIE']
 
+# make sure rpc retuns at least something, an empty string breaks uwsgi routing
+# also it should return bytes on python3
+
 @rpc('authrpc')
 def authrpc(http_cookie):
     cookies = parse_cookie(http_cookie)

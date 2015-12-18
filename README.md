@@ -1,4 +1,4 @@
-# Demo flask auth app using pyotp, qrcode to authenticate uwsgi proxy
+# Demo flask app using pyotp, qrcode to authorize uwsgi proxy
 
 ## OTP auth app
 
