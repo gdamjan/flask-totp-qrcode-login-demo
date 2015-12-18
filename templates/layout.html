@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    {% block head %}
+    <title>{% block title %}{% endblock %} - totp auth demo</title>
+    {% endblock %}
+</head>
+<body>
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <ul class=flashes>
+    {% for message in messages %}
+      <li>{{ message }}</li>
+    {% endfor %}
+    </ul>
+  {% endif %}
+{% endwith %}
+
+<div id="content">{% block content %}{% endblock %}</div>
+<div id="footer">
+  {% block footer %}
+  <a href="https://github.com/gdamjan/flask-totp-qrcode-login-uwsgi-proxy-demo">github</a>
+  {% endblock %}
+</div>
+</body>
+</html>

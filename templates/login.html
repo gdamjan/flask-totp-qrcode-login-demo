@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<form action="{{ url_for('do_login') }}" method=post>
+    <h3>Enter your credentials to login:</h3>
+    <input name=user placeholder="Username" autofocus><br>
+    <input name=token placeholder="Token"><br>
+    <input type="submit" value="Login">
+</form>
+
+<form action="{{ url_for('confirm') }}" method=post>
+    <h3>or choose a username to creat a new account:</h3>
+    <input name=user placeholder="Choose your username" autofocus>
+</form>
+
+<form action="{{ url_for('do_logout') }}" method=post>
+    <h3>…this really should be conditional :)</h3>
+    <input type=submit value=Logout!>
+</form>
+{% endblock %}

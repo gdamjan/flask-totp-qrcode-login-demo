@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+{% block title %}Confirm{% endblock %}
+
+{% block content %}
+<small>{{ provision }}</small><br>
+<img src="{{ url_for('qrcodeimg') }}" title="{{ provision }}">
+<form action=create method=post>
+   <input name=token placeholder="Confirm the token from your app" autofocus>
+</form>
+{% endblock %}
